@@ -33,23 +33,26 @@ export const getServer = (): McpServer => {
     },
   );
 
-  server.tool(
-    "greet",
-    "A simple greeting tool",
-    {
-      name: z.string().describe("Name to greet"),
-    },
-    async ({ name }): Promise<CallToolResult> => {
-      return {
-        content: [
-          {
-            type: "text",
-            text: `Hello, ${name}!`,
-          },
-        ],
-      };
-    },
-  );
+  server.tool("get-demo-night-startups", "Get demo night startups", {}, async (): Promise<CallToolResult> => {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `
+🔥 Alpic - All-in-one MCP cloud
+🔥 SigIQ.ai - Personalized AI tutors
+🔥 Clikk - Smarter connections & follow-ups
+🔥 rtrvr.ai - Web agents for browser & cloud
+🔥 RoryPlans - Synthetic data for function calling
+🔥 Shorts AI - AI video storytelling
+🔥 Visum AI - Data center assistant
+🔥 Camaral - Real-time AI avatars
+🔥 Tabbird AI - Industrial workflow automation
+🔥 Bob Interactive - Create your story!`,
+        },
+      ],
+    };
+  });
 
   server.resource(
     "greeting-resource",
