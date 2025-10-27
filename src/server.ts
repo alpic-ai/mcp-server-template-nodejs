@@ -66,12 +66,13 @@ export const getServer = (): McpServer => {
         .default("info")
         .describe("The severity level of the notification"),
     },
-    async ({ message, level }): Promise<CallToolResult> => {
+    async ({ message, level }, { _meta, sendNotification }): Promise<CallToolResult> => {
       try {
-        await server.server.sendLoggingMessage({
-          level,
-          data: message,
-        });
+        if (_meta?.progressToken)
+          await sendNotification({
+            method: "notifications/message",
+            params: { level, data: message },
+          });
 
         return {
           content: [
