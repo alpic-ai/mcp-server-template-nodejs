@@ -8,7 +8,11 @@ export const getServer = (): McpServer => {
       name: "mcp-server-template",
       version: "0.0.1",
     },
-    { capabilities: {} },
+    {
+      capabilities: {
+        logging: {},
+      },
+    },
   );
 
   // Register a simple prompt
@@ -48,6 +52,46 @@ export const getServer = (): McpServer => {
           },
         ],
       };
+    },
+  );
+
+  server.tool(
+    "send-notification",
+    "Send a notification to the client",
+    {
+      message: z.string().describe("The notification message to send"),
+      level: z
+        .enum(["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"])
+        .optional()
+        .default("info")
+        .describe("The severity level of the notification"),
+    },
+    async ({ message, level }): Promise<CallToolResult> => {
+      try {
+        await server.server.sendLoggingMessage({
+          level,
+          data: message,
+        });
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Notification sent successfully: [${level}] ${message}`,
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Failed to send notification: ${error instanceof Error ? error.message : String(error)}`,
+            },
+          ],
+          isError: true,
+        };
+      }
     },
   );
 
