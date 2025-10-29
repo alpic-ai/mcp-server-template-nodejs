@@ -96,6 +96,15 @@ export const getServer = (): McpServer => {
     },
   );
 
+  server.tool(
+    "throw-error",
+    "Always throws an error to test error handling in the transport",
+    {},
+    async (): Promise<CallToolResult> => {
+      throw new Error("This is a test error from throw-error tool");
+    },
+  );
+
   server.resource(
     "greeting-resource",
     "https://example.com/greetings/default",
