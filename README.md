@@ -12,7 +12,6 @@ Use the following button to clone the repository and directly deploy the server 
 
 [![Deploy on Alpic](https://assets.alpic.ai/button.svg)](https://app.alpic.ai/new/clone?repositoryUrl=https%3A%2F%2Fgithub.com%2Falpic-ai%2Fmcp-server-template-nodejs)
 
-
 ## Prerequisites
 
 - Node.js 22+ (see `.nvmrc` for exact version)
@@ -73,7 +72,6 @@ npm run inspector
 - `POST /mcp` - Main MCP communication endpoint
 - `GET /mcp` - Returns "Method not allowed" (405)
 - `DELETE /mcp` - Returns "Method not allowed" (405)
-
 
 ## Development
 
