@@ -12,11 +12,14 @@ export const getServer = (): McpServer => {
   );
 
   // Register a simple prompt
-  server.prompt(
+  server.registerPrompt(
     "greeting-template",
-    "A simple greeting prompt template",
     {
-      name: z.string().describe("Name to include in greeting"),
+      title: "Greeting Template",
+      description: "A simple greeting prompt template",
+      argsSchema: {
+        name: z.string().describe("Name to include in greeting"),
+      },
     },
     async ({ name }): Promise<GetPromptResult> => {
       return {
@@ -33,11 +36,14 @@ export const getServer = (): McpServer => {
     },
   );
 
-  server.tool(
+  server.registerTool(
     "greet",
-    "A simple greeting tool",
     {
-      name: z.string().describe("Name to greet"),
+      title: "Greeting Tool",
+      description: "A simple greeting tool",
+      inputSchema: {
+        name: z.string().describe("Name to greet"),
+      },
     },
     async ({ name }): Promise<CallToolResult> => {
       return {
@@ -51,7 +57,7 @@ export const getServer = (): McpServer => {
     },
   );
 
-  server.resource(
+  server.registerResource(
     "greeting-resource",
     "https://example.com/greetings/default",
     { mimeType: "text/plain" },

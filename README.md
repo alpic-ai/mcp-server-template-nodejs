@@ -82,12 +82,15 @@ npm run inspector
 To add a new tool, modify `src/server.ts`:
 
 ```typescript
-server.tool(
+server.registerTool(
   "tool-name",
-  "Tool description",
   {
-    // Define your parameters using Zod schemas
-    param: z.string().describe("Parameter description"),
+    title: "Tool Title",
+    description: "Tool description",
+    inputSchema: {
+      // Define your parameters using Zod schemas
+      param: z.string().describe("Parameter description"),
+    },
   },
   async ({ param }): Promise<CallToolResult> => {
     // Your tool implementation
@@ -108,12 +111,15 @@ server.tool(
 To add a new prompt template, modify `src/server.ts`:
 
 ```typescript
-server.prompt(
+server.registerPrompt(
   "prompt-name",
-  "Prompt description",
   {
-    // Define your parameters using Zod schemas
-    param: z.string().describe("Parameter description"),
+    title: "Prompt Title",
+    description: "Prompt description",
+    argsSchema: {
+      // Define your parameters using Zod schemas
+      param: z.string().describe("Parameter description"),
+    },
   },
   async ({ param }): Promise<GetPromptResult> => {
     return {
@@ -124,6 +130,28 @@ server.prompt(
             type: "text",
             text: `Your prompt content with ${param}`,
           },
+        },
+      ],
+    };
+  },
+);
+```
+
+### Adding New Resources
+
+To add a new resource, modify `src/server.ts`:
+
+```typescript
+server.registerResource(
+  "resource-name",
+  "https://example.com/resource-uri",
+  { mimeType: "text/plain" },
+  async (): Promise<ReadResourceResult> => {
+    return {
+      contents: [
+        {
+          uri: "https://example.com/resource-uri",
+          text: "Resource content",
         },
       ],
     };
